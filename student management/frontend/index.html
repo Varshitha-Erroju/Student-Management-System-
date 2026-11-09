@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head><title>Student Management</title>
+<style>
+body{font-family:Arial;background:#f0f2f5;padding:20px}
+.container{max-width:900px;margin:auto;background:white;padding:20px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+h1{color:#4f46e5;text-align:center}
+.form{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+input{padding:10px;border:1px solid #ccc;border-radius:8px;flex:1;min-width:150px}
+button{padding:10px 15px;background:#4f46e5;color:white;border:none;border-radius:8px;cursor:pointer}
+button.delete{background:#ef4444} button.edit{background:#f59e0b}
+table{width:100%;border-collapse:collapse} th,td{padding:12px;border-bottom:1px solid #eee;text-align:left}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🎓 Student Management System</h1>
+<div class="form">
+<input id="roll" placeholder="Roll No">
+<input id="name" placeholder="Name">
+<input id="branch" placeholder="Branch">
+<input id="marks" placeholder="Marks">
+<button onclick="addStudent()">Add</button>
+</div>
+<table><thead><tr><th>Roll</th><th>Name</th><th>Branch</th><th>Marks</th><th>Grade</th><th>Action</th></tr></thead><tbody id="table"></tbody></table>
+</div>
+<script>
+const API="/api/students";
+async function load(){
+  let r=await fetch(API);let d=await r.json();let h="";
+  d.forEach(s=>{
+    h+=`<tr><td>${s.roll||''}</td><td>${s.name||''}</td><td>${s.branch||''}</td><td>${s.marks||''}</td><td>${s.grade||''}</td><td><button class="delete" onclick="del('${s.roll}')">Del</button> <button class="edit" onclick="up(${s.roll}, '${s.name}', '${s.branch}', ${s.marks})">Update</button></td></tr>`
+  });
+  document.getElementById("table").innerHTML=h;
+}
+async function addStudent(){
+  let rollV=document.getElementById("roll").value.trim();
+  let nameV=document.getElementById("name").value.trim();
+  let branchV=document.getElementById("branch").value.trim();
+  let marksV=document.getElementById("marks").value.trim();
+  if(!rollV || !nameV){ alert("Roll No and Name compulsory!"); return; }
+  let s={roll:rollV, name:nameV, branch:branchV, marks:marksV};
+  await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(s)});
+  document.getElementById("roll").value="";document.getElementById("name").value="";document.getElementById("branch").value="";document.getElementById("marks").value="";
+  load();
+}
+async function del(r){await fetch(`${API}/${r}`,{method:"DELETE"});load();}
+async function up(r, oldName, oldBranch, oldMarks){
+  let newName=prompt("New Name:",oldName); if(newName===null) return;
+  let newBranch=prompt("New Branch:",oldBranch); if(newBranch===null) return;
+  let newMarks=prompt("New Marks:",oldMarks); if(newMarks===null) return;
+  await fetch(`${API}/${r}`,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:newName,branch:newBranch,marks:newMarks})});load();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+[
+  {
+    "roll": "1",
+    "name": " Rishitha Nimmala",
+    "branch": "CSE",
+    "marks": 99,
+    "grade": "A+"
+  },
+  {
+    "roll": "3",
+    "name": "Sravya",
+    "branch": "ECE",
+    "marks": 65,
+    "grade": "C"
+  },
+  {
+    "roll": "4",
+    "name": "nikshiptha",
+    "branch": "ECE",
+    "marks": "86",
+    "grade": "B"
+  },
+  {
+    "roll": "5",
+    "name": "Hamshini",
+    "branch": "csm",
+    "marks": 60,
+    "grade": "C"
+  },
+  {
+    "roll": "6",
+    "name": "Afisa",
+    "branch": "ECE",
+    "marks": 60,
+    "grade": "C"
+  },
+  {
+    "roll": "7",
+    "name": "varshitha",
+    "branch": "CSE",
+    "marks": 90,
+    "grade": "A+"
+  }
+]
